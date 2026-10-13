@@ -25,8 +25,18 @@ One repo serves every client. The shared parts follow the [Agent Plugins](https:
 | `assets/` | Every client | Icon, logo and wordmark. |
 | `.cursor-plugin/plugin.json` | Cursor | Display name and logo. |
 | `.claude-plugin/plugin.json`, `.mcp.json` | Claude Code, Grok Build | The same plugin in their manifest format. |
+| `server.json` | The [official MCP Registry](https://registry.modelcontextprotocol.io) | The registry entry, `com.bool/bool`. |
 
-Keep the version the same in all three manifests. CI checks it.
+Keep the version the same in all four manifests. CI checks it.
+
+## Publish to the MCP Registry
+
+```bash
+mcp-publisher login http --domain bool.com --private-key "$(openssl pkey -in ~/.config/bool/mcp-registry-key.pem -noout -text | grep -A3 priv: | tail -n +2 | tr -d ' :\n')"
+mcp-publisher publish
+```
+
+bool.com serves the matching public key at `/.well-known/mcp-registry-auth`. Bump `version` in `server.json` before republishing.
 
 ## Release to the OpenAI plugin directory
 

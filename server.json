@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.bool/bool",
+  "title": "Bool",
+  "description": "Make your own apps and tools: build, edit and publish web apps from a conversation.",
+  "version": "1.0.1",
+  "websiteUrl": "https://bool.com",
+  "repository": {
+    "url": "https://github.com/codehs/bool-plugin",
+    "source": "github",
+    "id": "1349917073"
+  },
+  "icons": [
+    {
+      "src": "https://bool.com/bool-mark.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://bool.com/api/mcp"
+    }
+  ]
+}
