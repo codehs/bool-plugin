@@ -7,12 +7,12 @@ import sys
 root = pathlib.Path(__file__).resolve().parent.parent
 errors = []
 
-manifests = ["plugin.json", ".cursor-plugin/plugin.json", ".claude-plugin/plugin.json"]
+manifests = ["plugin.json", ".cursor-plugin/plugin.json", ".claude-plugin/plugin.json", "server.json"]
 versions = {m: json.loads((root / m).read_text())["version"] for m in manifests}
 if len(set(versions.values())) != 1:
     errors.append(f"versions differ: {versions}")
 
-names = {m: json.loads((root / m).read_text())["name"] for m in manifests}
+names = {m: json.loads((root / m).read_text())["name"] for m in manifests if m != "server.json"}
 if len(set(names.values())) != 1:
     errors.append(f"names differ: {names}")
 
@@ -20,6 +20,12 @@ for mcp in ["mcp.json", ".mcp.json"]:
     servers = json.loads((root / mcp).read_text())["mcpServers"]
     if list(servers) != ["bool"] or servers["bool"]["url"] != "https://bool.com/api/mcp":
         errors.append(f"{mcp} must declare exactly the bool server at https://bool.com/api/mcp")
+
+registry = json.loads((root / "server.json").read_text())
+if registry["name"] != "com.bool/bool" or registry["remotes"] != [
+    {"type": "streamable-http", "url": "https://bool.com/api/mcp"}
+]:
+    errors.append("server.json must be com.bool/bool with the one bool.com remote")
 
 skill = (root / "skills/bool/SKILL.md").read_text()
 front = re.match(r"^---\n(.*?)\n---\n", skill, re.S)
