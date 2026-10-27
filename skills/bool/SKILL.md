@@ -36,9 +36,10 @@ You build the app yourself. Bool's own AI runs only when the user asks for it.
 - Templates: `list_templates` before passing `template` to `create_project`.
 - Remix: `fork_project` (user-facing word is remix). Then the build loop if they want changes.
 - Show projects: `open_bool_editor`. In clients that can't show the Bool editor, `render_project_widget` shows a status card.
-- Rename, description, or visibility: `update_project`. Visibility on an existing project can also go through `get_project`.
+- Rename, description, or visibility: `update_project`.
 - Move across workspaces: `move_project` (owner only).
-- Local backend link: `get_project_connection`. If `include_api_key` is true, the admin data key is owner-only. Never commit it.
+- Default workspace: `settings_read` shows which workspace new projects go to and where projects are listed. `settings_update` changes it when the user asks.
+- Local backend link: `get_project_connection`. It returns only the public connection details. Admin data keys are created in Bool's project settings, never through the conversation.
 
 ## Safety
 
@@ -86,5 +87,7 @@ Use only these names. Do not invent tools.
 - `run_db_migration`
 - `save_version`
 - `set_project_icon`
+- `settings_read`
+- `settings_update`
 - `update_project`
 - `update_record`
